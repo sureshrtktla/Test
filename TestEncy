@@ -1,0 +1,17 @@
+function encryptPassword(password) {
+        	var iv = "3ad55e60a4fecde36fa4963817dc";
+            var key = "0a948f5d4d8b9cc45df90bd382";
+           
+            var encrypted = CryptoJS.AES.encrypt(password,
+            		CryptoJS.enc.Hex.parse(key), {
+                        iv : CryptoJS.enc.Hex.parse(iv),
+                        mode : CryptoJS.mode.CBC,
+                        padding : CryptoJS.pad.Pkcs7
+                    });
+            var encryptedInHex = encrypted.ciphertext
+                    .toString(CryptoJS.enc.Hex); // converting the encrypted data in Hexadecimal
+            var hash=encryptedInHex.toUpperCase();
+        	return hash;
+        }
+    }
+})();
