@@ -1,0 +1,21 @@
+public static String decrypt(String password) {
+		String s = "";
+		try {
+			SecretKeySpec sks = new SecretKeySpec(Hex.decodeHex(KEY.toCharArray()), "AES");
+			IvParameterSpec iv = new IvParameterSpec(Hex.decodeHex(IV.toCharArray()));
+			Cipher c = Cipher.getInstance("AES/CBC/NoPadding");
+			c.init(Cipher.DECRYPT_MODE, sks, iv);
+			byte[] plain = c.doFinal(Hex.decodeHex(password.toCharArray()));
+			String plainText = new String(plain);
+
+			for (int i = 0; i < plainText.length(); i++) {
+				Character c1 = plainText.charAt(i);
+				if (c1.hashCode() > 31) {
+					s = s + c1;
+				}
+			}
+		} catch (Exception e) {
+			log.error("Exception in decryption " + ExceptionUtils.getFullStackTrace(e));
+		}
+		return s;
+	}
